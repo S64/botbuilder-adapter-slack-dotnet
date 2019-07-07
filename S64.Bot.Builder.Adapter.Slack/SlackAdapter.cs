@@ -63,17 +63,19 @@ namespace S64.Bot.Builder.Adapter.Slack
             await client.Events;
         }
 
-        private async Task OnMessageReceived(MessageEvent orgMsg, BotCallbackHandler callback)
+        private async Task OnMessageReceived(MessageEvent message, BotCallbackHandler callback)
         {
-            if (orgMsg.Channel == null) {
+            if (message.Channel == null) {
                 return;
             }
 
-            var channel = await api.Conversations.Info(orgMsg.Channel);
-
-            MessageEvent message = orgMsg is MessageReplied ? ((MessageReplied) orgMsg).Message : orgMsg;
+            var channel = await api.Conversations.Info(message.Channel);
             
-            if (message.User == null || message.User.Equals("USLACKBOT") || message.Subtype != null) {
+            if (message is MessageReplied) {
+                return;
+            } else if (message.User == null || message.User.Equals("USLACKBOT")) {
+                return;
+            } else if (message.Subtype != null && !message.Subtype.Equals("thread_broadcast")) {
                 return;
             } else if (!(message is MessageEvent) || message is BotMessage) {
                 return;
@@ -95,7 +97,7 @@ namespace S64.Bot.Builder.Adapter.Slack
                 Recipient = null,
                 Conversation = new ConversationAccount
                 {
-                    Id = message.Channel,
+                    Id = channel.Id,
                 },
                 ChannelData = message,
             };

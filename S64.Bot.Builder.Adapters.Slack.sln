@@ -1,9 +1,9 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S64.Bot.Builder.Adapter.Slack", "S64.Bot.Builder.Adapter.Slack\S64.Bot.Builder.Adapter.Slack.csproj", "{C79CBECA-E9B0-4EC8-8477-A7E74FE56AFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S64.Bot.Builder.Adapters.Slack", "S64.Bot.Builder.Adapter.Slack\S64.Bot.Builder.Adapters.Slack.csproj", "{C79CBECA-E9B0-4EC8-8477-A7E74FE56AFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S64.Bot.Builder.Adapter.Slack.Example", "S64.Bot.Builder.Adapter.Slack.Example\S64.Bot.Builder.Adapter.Slack.Example.csproj", "{01B1B05C-B995-4A5F-BEF3-C8B941FB96A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S64.Bot.Builder.Adapters.Slack.Example", "S64.Bot.Builder.Adapter.Slack.Example\S64.Bot.Builder.Adapters.Slack.Example.csproj", "{01B1B05C-B995-4A5F-BEF3-C8B941FB96A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

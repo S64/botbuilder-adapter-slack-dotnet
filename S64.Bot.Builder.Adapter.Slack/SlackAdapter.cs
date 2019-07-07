@@ -8,7 +8,7 @@ using SlackNet;
 using SlackNet.Events;
 using SlackNet.WebApi;
 
-namespace S64.Bot.Builder.Adapter.Slack
+namespace S64.Bot.Builder.Adapters.Slack
 {
 
     public class SlackAdapter : BotAdapter
@@ -65,21 +65,31 @@ namespace S64.Bot.Builder.Adapter.Slack
 
         private async Task OnMessageReceived(MessageEvent message, BotCallbackHandler callback)
         {
-            if (message.Channel == null) {
+            if (message.Channel == null)
+            {
                 return;
             }
 
             var channel = await api.Conversations.Info(message.Channel);
-            
-            if (message is MessageReplied) {
+
+            if (message is MessageReplied)
+            {
                 return;
-            } else if (message.User == null || message.User.Equals("USLACKBOT")) {
+            }
+            else if (message.User == null || message.User.Equals("USLACKBOT"))
+            {
                 return;
-            } else if (message.Subtype != null && !message.Subtype.Equals("thread_broadcast")) {
+            }
+            else if (message.Subtype != null && !message.Subtype.Equals("thread_broadcast"))
+            {
                 return;
-            } else if (!(message is MessageEvent) || message is BotMessage) {
+            }
+            else if (!(message is MessageEvent) || message is BotMessage)
+            {
                 return;
-            } else if ((!channel.IsIm || channel.IsMpim) && !message.Text.Contains($"<@{currentUser.UserId}>")) {
+            }
+            else if ((!channel.IsIm || channel.IsMpim) && !message.Text.Contains($"<@{currentUser.UserId}>"))
+            {
                 return;
             }
 
@@ -129,9 +139,10 @@ namespace S64.Bot.Builder.Adapter.Slack
                     case ActivityTypes.Message:
                         {
                             IMessageActivity msg = activity.AsMessageActivity();
-                            
+
                             await api.Chat.PostMessage(
-                                new Message {
+                                new Message
+                                {
                                     Channel = msg.Conversation.Id,
                                     Text = msg.Text
                                 }

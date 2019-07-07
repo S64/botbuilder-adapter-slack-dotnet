@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace S64.Bot.Builder.Adapter.Slack.Example
+namespace S64.Bot.Builder.Adapters.Slack.Example
 {
 
     class Program

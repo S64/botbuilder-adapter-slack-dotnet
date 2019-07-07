@@ -48,26 +48,36 @@ namespace S64.Bot.Builder.Adapter.Slack
                 initialized.Set();
             }
 
-            client.Messages.Subscribe((msg) =>
+            client.Messages.Subscribe(async (msg) =>
             {
                 switch (msg.Type)
                 {
                     case "message":
-                        OnMessageReceived(msg, callback);
+                        await OnMessageReceived(msg, callback);
                         break;
                     default:
-                        throw new NotImplementedException();
+                        break;
                 }
             });
 
             await client.Events;
         }
 
-        private void OnMessageReceived(MessageEvent message, BotCallbackHandler callback)
+        private async Task OnMessageReceived(MessageEvent orgMsg, BotCallbackHandler callback)
         {
-            if (message is BotMessage) {
+            if (orgMsg.Channel == null) {
                 return;
-            } else if (!message.Text.Contains($"<@{currentUser.UserId}>")) {
+            }
+
+            var channel = await api.Conversations.Info(orgMsg.Channel);
+
+            MessageEvent message = orgMsg is MessageReplied ? ((MessageReplied) orgMsg).Message : orgMsg;
+            
+            if (message.User == null || message.User.Equals("USLACKBOT") || message.Subtype != null) {
+                return;
+            } else if (!(message is MessageEvent) || message is BotMessage) {
+                return;
+            } else if ((!channel.IsIm || channel.IsMpim) && !message.Text.Contains($"<@{currentUser.UserId}>")) {
                 return;
             }
 
@@ -92,11 +102,11 @@ namespace S64.Bot.Builder.Adapter.Slack
 
             using (var context = new TurnContext(this, activity))
             {
-                this.RunPipelineAsync(
+                await this.RunPipelineAsync(
                     context,
                     callback,
                     default(CancellationToken)
-                ).Wait();
+                );
             }
         }
 

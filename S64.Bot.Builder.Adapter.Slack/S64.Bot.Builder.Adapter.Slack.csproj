@@ -6,6 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.4.5" />
-    <PackageReference Include="SlackAPI" Version="1.1.1" />
+    <PackageReference Include="SlackNet" Version="0.3.0" />
   </ItemGroup>
 </Project>

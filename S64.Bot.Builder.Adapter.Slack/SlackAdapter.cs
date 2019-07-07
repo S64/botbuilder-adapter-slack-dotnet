@@ -3,8 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using SlackAPI;
-using SlackAPI.WebSocketMessages;
+using System.Reactive.Linq;
+using SlackNet;
+using SlackNet.Events;
+using SlackNet.WebApi;
 
 namespace S64.Bot.Builder.Adapter.Slack
 {
@@ -12,13 +14,17 @@ namespace S64.Bot.Builder.Adapter.Slack
     public class SlackAdapter : BotAdapter
     {
 
-        private readonly SlackSocketClient client;
+        private readonly SlackRtmClient client;
+        private readonly SlackApiClient api;
         private readonly ManualResetEventSlim initialized;
         private readonly ManualResetEventSlim disconnected;
 
+        private AuthTestResponse currentUser { get; set; }
+
         public SlackAdapter(string token) : base()
         {
-            client = new SlackSocketClient(token);
+            client = new SlackRtmClient(token);
+            api = new SlackApiClient(token);
             initialized = new ManualResetEventSlim(false);
             disconnected = new ManualResetEventSlim(false);
         }
@@ -29,54 +35,55 @@ namespace S64.Bot.Builder.Adapter.Slack
             return this;
         }
 
-        public void ProcessActivity(
+        public async Task ProcessActivityAsync(
             BotCallbackHandler callback = null
         )
         {
-            if (client.IsConnected)
+
+            currentUser = await api.Auth.Test();
+
+            await client.Connect().ConfigureAwait(false);
+            if (!initialized.IsSet)
             {
-                throw new NotImplementedException();
+                initialized.Set();
             }
 
-            client.OnMessageReceived += (message) =>
+            client.Messages.Subscribe((msg) =>
             {
-                switch (message.type) {
+                switch (msg.Type)
+                {
                     case "message":
-                        OnMessageReceived(message, callback);
+                        OnMessageReceived(msg, callback);
                         break;
                     default:
                         throw new NotImplementedException();
                 }
-            };
-
-            client.Connect((connected) =>
-            {
-                if (!initialized.IsSet)
-                {
-                    initialized.Set();
-                }
             });
 
-            disconnected.Wait();
+            await client.Events;
         }
 
-        private void OnMessageReceived(NewMessage message, BotCallbackHandler callback)
+        private void OnMessageReceived(MessageEvent message, BotCallbackHandler callback)
         {
+            if (!message.Text.Contains($"<@{currentUser.UserId}>")) {
+                return;
+            }
+
             var activity = new Activity
             {
-                Id = message.thread_ts.ToLongDateString(),
+                Id = message.ThreadTs,
                 Timestamp = DateTimeOffset.Now,
                 Type = ActivityTypes.Message,
-                Text = message.text,
+                Text = message.Text,
                 ChannelId = "slack",
                 From = new ChannelAccount
                 {
-                    Id = message.user
+                    Id = message.User
                 },
                 Recipient = null,
                 Conversation = new ConversationAccount
                 {
-                    Id = message.channel,
+                    Id = message.Channel,
                 },
                 ChannelData = message,
             };
@@ -108,11 +115,12 @@ namespace S64.Bot.Builder.Adapter.Slack
                     case ActivityTypes.Message:
                         {
                             IMessageActivity msg = activity.AsMessageActivity();
-
-                            client.PostMessage(
-                                null,
-                                msg.Conversation.Id,
-                                msg.Text
+                            
+                            await api.Chat.PostMessage(
+                                new Message {
+                                    Channel = msg.Conversation.Id,
+                                    Text = msg.Text
+                                }
                             );
                         }
                         break;

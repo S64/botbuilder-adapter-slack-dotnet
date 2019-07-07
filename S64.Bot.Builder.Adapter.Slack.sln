@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S64.Bot.Builder.Adapter.Slack", "S64.Bot.Builder.Adapter.Slack\S64.Bot.Builder.Adapter.Slack.csproj", "{C79CBECA-E9B0-4EC8-8477-A7E74FE56AFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S64.Bot.Builder.Adapter.Slack.Example", "S64.Bot.Builder.Adapter.Slack.Example\S64.Bot.Builder.Adapter.Slack.Example.csproj", "{01B1B05C-B995-4A5F-BEF3-C8B941FB96A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C79CBECA-E9B0-4EC8-8477-A7E74FE56AFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C79CBECA-E9B0-4EC8-8477-A7E74FE56AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C79CBECA-E9B0-4EC8-8477-A7E74FE56AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C79CBECA-E9B0-4EC8-8477-A7E74FE56AFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01B1B05C-B995-4A5F-BEF3-C8B941FB96A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01B1B05C-B995-4A5F-BEF3-C8B941FB96A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01B1B05C-B995-4A5F-BEF3-C8B941FB96A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01B1B05C-B995-4A5F-BEF3-C8B941FB96A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

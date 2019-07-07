@@ -65,7 +65,9 @@ namespace S64.Bot.Builder.Adapter.Slack
 
         private void OnMessageReceived(MessageEvent message, BotCallbackHandler callback)
         {
-            if (!message.Text.Contains($"<@{currentUser.UserId}>")) {
+            if (message is BotMessage) {
+                return;
+            } else if (!message.Text.Contains($"<@{currentUser.UserId}>")) {
                 return;
             }
 

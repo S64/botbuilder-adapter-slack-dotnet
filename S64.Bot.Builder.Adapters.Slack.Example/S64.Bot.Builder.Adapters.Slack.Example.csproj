@@ -6,6 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\S64.Bot.Builder.Adapter.Slack\S64.Bot.Builder.Adapter.Slack.csproj" />
+    <ProjectReference Include="..\S64.Bot.Builder.Adapters.Slack\S64.Bot.Builder.Adapters.Slack.csproj" />
   </ItemGroup>
 </Project>

@@ -16,8 +16,6 @@ namespace S64.Bot.Builder.Adapters.Slack
 
         private readonly SlackRtmClient client;
         private readonly SlackApiClient api;
-        private readonly ManualResetEventSlim initialized;
-        private readonly ManualResetEventSlim disconnected;
 
         private AuthTestResponse currentUser { get; set; }
 
@@ -43,10 +41,6 @@ namespace S64.Bot.Builder.Adapters.Slack
             currentUser = await api.Auth.Test();
 
             await client.Connect().ConfigureAwait(false);
-            if (!initialized.IsSet)
-            {
-                initialized.Set();
-            }
 
             client.Messages.Subscribe(async (msg) =>
             {

@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>S64.Bot.Builder.Adapters.Slack</PackageId>
+    <Description>Slack adapter for Microsoft Bot Builder SDK</Description>
   </PropertyGroup>
 
   <ItemGroup>

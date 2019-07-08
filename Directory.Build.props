@@ -4,7 +4,7 @@
     <Product>botbuilder-adapter-slack-dotnet</Product>
     <Authors>Shuma Yoshioka</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/S64/botbuilder-adapter-slack-dotnet/</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/S64/botbuilder-adapter-slack-dotnet</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 </Project>

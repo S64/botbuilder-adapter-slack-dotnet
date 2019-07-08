@@ -40,7 +40,7 @@ namespace S64.Bot.Builder.Adapters.Slack
 
             await client.Connect().ConfigureAwait(false);
 
-            client.Messages.Subscribe(async (msg) =>
+            var sub = client.Messages.Subscribe(async (msg) =>
             {
                 switch (msg.Type)
                 {
@@ -53,6 +53,7 @@ namespace S64.Bot.Builder.Adapters.Slack
             });
 
             await client.Events;
+            sub.Dispose();
         }
 
         private async Task OnMessageReceived(MessageEvent message, BotCallbackHandler callback)

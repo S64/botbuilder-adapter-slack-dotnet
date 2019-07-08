@@ -14,15 +14,15 @@ namespace S64.Bot.Builder.Adapters.Slack
     public class SlackAdapter : BotAdapter
     {
 
-        private readonly SlackRtmClient client;
-        private readonly SlackApiClient api;
+        private readonly SlackRtmClient socket;
+        private readonly SlackApiClient rest;
 
         private AuthTestResponse currentUser { get; set; }
 
         public SlackAdapter(string token) : base()
         {
-            client = new SlackRtmClient(token);
-            api = new SlackApiClient(token);
+            socket = new SlackRtmClient(token);
+            rest = new SlackApiClient(token);
         }
 
         public new SlackAdapter Use(IMiddleware middleware)
@@ -36,11 +36,11 @@ namespace S64.Bot.Builder.Adapters.Slack
         )
         {
 
-            currentUser = await api.Auth.Test();
+            currentUser = await rest.Auth.Test();
 
-            await client.Connect().ConfigureAwait(false);
+            await socket.Connect().ConfigureAwait(false);
 
-            var sub = client.Messages.Subscribe(async (msg) =>
+            var sub = socket.Messages.Subscribe(async (msg) =>
             {
                 switch (msg.Type)
                 {
@@ -52,7 +52,7 @@ namespace S64.Bot.Builder.Adapters.Slack
                 }
             });
 
-            await client.Events;
+            await socket.Events;
             sub.Dispose();
         }
 
@@ -63,7 +63,7 @@ namespace S64.Bot.Builder.Adapters.Slack
                 return;
             }
 
-            var channel = await api.Conversations.Info(message.Channel);
+            var channel = await rest.Conversations.Info(message.Channel);
 
             if (message is MessageReplied)
             {
@@ -133,7 +133,7 @@ namespace S64.Bot.Builder.Adapters.Slack
                         {
                             IMessageActivity msg = activity.AsMessageActivity();
 
-                            await api.Chat.PostMessage(
+                            await rest.Chat.PostMessage(
                                 new Message
                                 {
                                     Channel = msg.Conversation.Id,

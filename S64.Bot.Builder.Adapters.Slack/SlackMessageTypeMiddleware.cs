@@ -29,7 +29,7 @@ namespace S64.Bot.Builder.Adapters.Slack
                     }
                     else
                     {
-                        var channel = await adapter.Api.Conversations.Info(data.Message.Channel);
+                        var channel = await adapter.Rest.Conversations.Info(data.Message.Channel);
 
                         if (data.Message is MessageReplied)
                         {

@@ -17,14 +17,14 @@ namespace S64.Bot.Builder.Adapters.Slack
         public const string CHANNEL_ID = "slack";
 
         private readonly SlackRtmClient socket;
-        public readonly SlackApiClient Api;
+        public readonly SlackApiClient Rest;
 
         public AuthTestResponse CurrentUser { get; set; }
 
         public SlackAdapter(string token) : base()
         {
             socket = new SlackRtmClient(token);
-            Api = new SlackApiClient(token);
+            Rest = new SlackApiClient(token);
         }
 
         public new SlackAdapter Use(IMiddleware middleware)
@@ -38,7 +38,7 @@ namespace S64.Bot.Builder.Adapters.Slack
         )
         {
 
-            CurrentUser = await Api.Auth.Test();
+            CurrentUser = await Rest.Auth.Test();
 
             await socket.Connect().ConfigureAwait(false);
 
@@ -110,7 +110,7 @@ namespace S64.Bot.Builder.Adapters.Slack
                         {
                             IMessageActivity msg = activity.AsMessageActivity();
 
-                            await Api.Chat.PostMessage(
+                            await Rest.Chat.PostMessage(
                                 new Message
                                 {
                                     Channel = msg.Conversation.Id,

@@ -21,10 +21,10 @@ namespace S64.Bot.Builder.Adapters.Slack
 
         public AuthTestResponse CurrentUser { get; set; }
 
-        public SlackAdapter(string token) : base()
+        public SlackAdapter(SlackOptions options) : base()
         {
-            socket = new SlackRtmClient(token);
-            Rest = new SlackApiClient(token);
+            socket = new SlackRtmClient(options.BotUserToken);
+            Rest = new SlackApiClient(options.BotUserToken);
         }
 
         public new SlackAdapter Use(IMiddleware middleware)
@@ -50,6 +50,7 @@ namespace S64.Bot.Builder.Adapters.Slack
                         await OnMessageReceived(msg, callback);
                         break;
                     default:
+                        // TODO: Implement non-message type
                         break;
                 }
             });

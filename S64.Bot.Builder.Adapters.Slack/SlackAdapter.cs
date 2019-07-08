@@ -23,8 +23,6 @@ namespace S64.Bot.Builder.Adapters.Slack
         {
             client = new SlackRtmClient(token);
             api = new SlackApiClient(token);
-            initialized = new ManualResetEventSlim(false);
-            disconnected = new ManualResetEventSlim(false);
         }
 
         public new SlackAdapter Use(IMiddleware middleware)

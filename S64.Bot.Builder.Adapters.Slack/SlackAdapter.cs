@@ -14,15 +14,17 @@ namespace S64.Bot.Builder.Adapters.Slack
     public class SlackAdapter : BotAdapter
     {
 
-        private readonly SlackRtmClient socket;
-        private readonly SlackApiClient rest;
+        public const string CHANNEL_ID = "slack";
 
-        private AuthTestResponse currentUser { get; set; }
+        private readonly SlackRtmClient socket;
+        public readonly SlackApiClient Api;
+
+        public AuthTestResponse CurrentUser { get; set; }
 
         public SlackAdapter(string token) : base()
         {
             socket = new SlackRtmClient(token);
-            rest = new SlackApiClient(token);
+            Api = new SlackApiClient(token);
         }
 
         public new SlackAdapter Use(IMiddleware middleware)
@@ -36,7 +38,7 @@ namespace S64.Bot.Builder.Adapters.Slack
         )
         {
 
-            currentUser = await rest.Auth.Test();
+            CurrentUser = await Api.Auth.Test();
 
             await socket.Connect().ConfigureAwait(false);
 
@@ -58,41 +60,13 @@ namespace S64.Bot.Builder.Adapters.Slack
 
         private async Task OnMessageReceived(MessageEvent message, BotCallbackHandler callback)
         {
-            if (message.Channel == null)
-            {
-                return;
-            }
-
-            var channel = await rest.Conversations.Info(message.Channel);
-
-            if (message is MessageReplied)
-            {
-                return;
-            }
-            else if (message.User == null || message.User.Equals("USLACKBOT"))
-            {
-                return;
-            }
-            else if (message.Subtype != null && !message.Subtype.Equals("thread_broadcast"))
-            {
-                return;
-            }
-            else if (!(message is MessageEvent) || message is BotMessage)
-            {
-                return;
-            }
-            else if ((!channel.IsIm || channel.IsMpim) && !message.Text.Contains($"<@{currentUser.UserId}>"))
-            {
-                return;
-            }
-
             var activity = new Activity
             {
                 Id = message.ThreadTs,
                 Timestamp = DateTimeOffset.Now,
                 Type = ActivityTypes.Message,
                 Text = message.Text,
-                ChannelId = "slack",
+                ChannelId = CHANNEL_ID,
                 From = new ChannelAccount
                 {
                     Id = message.User
@@ -100,9 +74,12 @@ namespace S64.Bot.Builder.Adapters.Slack
                 Recipient = null,
                 Conversation = new ConversationAccount
                 {
-                    Id = channel.Id,
+                    Id = message.Channel != null ? message.Channel : null,
                 },
-                ChannelData = message,
+                ChannelData = new SlackChannelData
+                {
+                    Message = message
+                },
             };
 
             using (var context = new TurnContext(this, activity))
@@ -133,7 +110,7 @@ namespace S64.Bot.Builder.Adapters.Slack
                         {
                             IMessageActivity msg = activity.AsMessageActivity();
 
-                            await rest.Chat.PostMessage(
+                            await Api.Chat.PostMessage(
                                 new Message
                                 {
                                     Channel = msg.Conversation.Id,

@@ -15,10 +15,21 @@ namespace S64.Bot.Builder.Adapters.Slack.Example
             CancellationToken cancellationToken
         )
         {
-            await turnContext.SendActivityAsync(
-                MessageFactory.Text($"Hello World! Your message is: `{turnContext.Activity.Text}`."),
-                cancellationToken
-            );
+            if (SlackAdapter.CHANNEL_ID.Equals(turnContext.Activity.ChannelId))
+            {
+                var data = turnContext.Activity.ChannelData as SlackChannelData;
+                if (data.IsMention == true)
+                {
+                    await turnContext.SendActivityAsync(
+                        MessageFactory.Text($"Hello World! Your message is: `{turnContext.Activity.Text}`."),
+                        cancellationToken
+                    );
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
     }

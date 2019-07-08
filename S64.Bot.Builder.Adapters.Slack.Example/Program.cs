@@ -16,7 +16,8 @@ namespace S64.Bot.Builder.Adapters.Slack.Example
 
         static void Main(string[] args)
         {
-            var adapter = new SlackAdapter(MySlackBotToken);
+            var adapter = new SlackAdapter(MySlackBotToken)
+                .Use(new SlackMessageTypeMiddleware());
 
             var myBot = new MyBot();
 

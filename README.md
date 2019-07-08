@@ -1,4 +1,7 @@
 # botbuilder-adapter-slack-dotnet
+
+[![NuGet version](https://badge.fury.io/nu/S64.Bot.Builder.Adapters.Slack.svg)](https://badge.fury.io/nu/S64.Bot.Builder.Adapters.Slack)
+
 Slack adapter for Microsoft Bot Builder SDK
 
 ## License

@@ -23,7 +23,11 @@ namespace S64.Bot.Builder.Adapters.Slack
                 var data = turnContext.Activity.ChannelData as SlackChannelData;
                 if (turnContext.Activity.Type.Equals(ActivityTypes.Message))
                 {
-                    if (data.Message.Channel == null)
+                    if (data.AppMention != null)
+                    {
+                        data.IsMention = true;
+                    }
+                    else if (data.Message.Channel == null)
                     {
                         data.IsMention = false;
                     }

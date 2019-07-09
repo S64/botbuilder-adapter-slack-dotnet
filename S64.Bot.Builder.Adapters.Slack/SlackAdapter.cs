@@ -106,7 +106,36 @@ namespace S64.Bot.Builder.Adapters.Slack
                 },
                 ChannelData = new SlackChannelData
                 {
-                    Message = message
+                    Message = message,
+                    AppMention = null,
+                },
+            };
+
+            await ProcessActivityAsync(activity, callback);
+        }
+
+        private async Task OnMessageReceived(AppMention message, BotCallbackHandler callback)
+        {
+            var activity = new Activity
+            {
+                Id = message.Ts,
+                Timestamp = DateTimeOffset.Now,
+                Type = ActivityTypes.Message,
+                Text = message.Text,
+                ChannelId = CHANNEL_ID,
+                From = new ChannelAccount
+                {
+                    Id = message.User
+                },
+                Recipient = null,
+                Conversation = new ConversationAccount
+                {
+                    Id = message.Channel != null ? message.Channel : null,
+                },
+                ChannelData = new SlackChannelData
+                {
+                    Message = null,
+                    AppMention = message,
                 },
             };
 

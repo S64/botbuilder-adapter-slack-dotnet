@@ -52,6 +52,7 @@ namespace S64.Bot.Builder.Adapters.Slack.AspNetCore
                 response.ContentType = "application/x-www-form-urlencoded";
 
                 await response.WriteAsync(urlVerification.Challenge);
+                return;
             }
 
             if (body is EventCallback eventCallback && eventCallback.Token.Equals(options.VerificationToken))
@@ -60,15 +61,24 @@ namespace S64.Bot.Builder.Adapters.Slack.AspNetCore
                 {
                     await adapter.ProcessActivityAsync(msg, bot.OnTurnAsync);
                     response.StatusCode = (int)HttpStatusCode.OK;
+                    return;
+                }
+                else if (eventCallback.Event is AppMention msg)
+                {
+                    await adapter.ProcessActivityAsync(msg, bot.OnTurnAsync);
+                    response.StatusCode = (int)HttpStatusCode.OK;
+                    return;
                 }
                 else
                 {
                     response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    return;
                 }
             }
             else
             {
                 response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                return;
             }
         }
 

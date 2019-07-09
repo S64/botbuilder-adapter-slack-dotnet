@@ -5,7 +5,7 @@ namespace S64.Bot.Builder.Adapters.Slack.AspNetCore
     public class SlackBotPaths
     {
 
-        public SlackPaths()
+        public SlackBotPaths()
         {
             this.BasePath = "/api";
             this.RequestPath = "events";

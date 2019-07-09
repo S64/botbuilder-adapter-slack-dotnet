@@ -41,7 +41,7 @@ namespace S64.Bot.Builder.Adapters.Slack
             }
         }
 
-        public async Task ProcessActivityAsync(
+        public async Task ProcessActivityBySocketAsync(
             BotCallbackHandler callback = null
         )
         {

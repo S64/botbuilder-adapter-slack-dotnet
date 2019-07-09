@@ -64,6 +64,8 @@ namespace S64.Bot.Builder.Adapters.Slack
             BotCallbackHandler callback = null
         )
         {
+            await InitUserIfNeeded();
+
             switch (message.Type)
             {
                 case "message":

@@ -26,7 +26,7 @@ namespace S64.Bot.Builder.Adapters.Slack.Example
 
             var myBot = new MyBot();
 
-            adapter.ProcessActivityAsync(async (turnContext, cancellationToken) =>
+            adapter.ProcessActivityBySocketAsync(async (turnContext, cancellationToken) =>
             {
                 await myBot.OnTurnAsync(turnContext, cancellationToken);
             }).Wait();

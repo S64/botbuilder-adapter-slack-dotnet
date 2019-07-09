@@ -18,6 +18,22 @@ namespace S64.Bot.Builder.Adapters.Slack.AspNetCore.Example
     public class Startup
     {
 
+        static string MySlackBotToken
+        {
+            get
+            {
+                return Environment.GetEnvironmentVariable("YOUR_SLACK_BOT_TOKEN");
+            }
+        }
+
+        static string MySlackVerificationToken
+        {
+            get
+            {
+                return Environment.GetEnvironmentVariable("YOUR_SLACK_VERIFICATION_TOKEN");
+            }
+        }
+
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)

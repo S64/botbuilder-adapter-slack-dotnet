@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -30,6 +31,21 @@ namespace S64.Bot.Builder.Adapters.Slack.AspNetCore.Example
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSlackBot<MyBot>(options =>
+            {
+                options.Middleware = new List<IMiddleware> { new SlackMessageTypeMiddleware() };
+                options.SlackOptions = new SlackOptions
+                {
+                    BotUserToken = MySlackBotToken,
+                };
+                options.Paths = new SlackBotPaths
+                {
+                    BasePath = "/api",
+                    RequestPath = "events",
+                };
+                options.VerificationToken = MySlackVerificationToken;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +57,8 @@ namespace S64.Bot.Builder.Adapters.Slack.AspNetCore.Example
             }
 
             app.UseMvc();
+
+            app.UseSlack();
         }
     }
 

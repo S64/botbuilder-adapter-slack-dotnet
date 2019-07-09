@@ -14,7 +14,9 @@ namespace S64.Bot.Builder.Adapters.Slack.AspNetCore
 
         public SlackBotPaths Paths { get; set; }
 
-        public bool IsValid => this.Paths != null && this.Middleware != null && this.SlackOptions != null;
+        public string VerificationToken { get; set; }
+
+        public bool IsValid => !string.IsNullOrEmpty(VerificationToken) && this.Paths != null && this.Middleware != null && this.SlackOptions != null;
 
     }
 

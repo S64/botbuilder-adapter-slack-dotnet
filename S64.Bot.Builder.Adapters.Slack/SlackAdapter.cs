@@ -50,21 +50,29 @@ namespace S64.Bot.Builder.Adapters.Slack
             var socket = new SlackRtmClient(options.BotUserToken);
             await socket.Connect().ConfigureAwait(false);
 
-            var sub = socket.Messages.Subscribe(async (msg) =>
+            var sub = socket.Messages.Subscribe(async (message) =>
             {
-                switch (msg.Type)
-                {
-                    case "message":
-                        await OnMessageReceived(msg, callback);
-                        break;
-                    default:
-                        // TODO: Implement non-message type
-                        break;
-                }
+                await ProcessActivityAsync(message, callback);
             });
 
             await socket.Events;
             sub.Dispose();
+        }
+
+        public async Task ProcessActivityAsync(
+            MessageEvent message,
+            BotCallbackHandler callback = null
+        )
+        {
+            switch (message.Type)
+            {
+                case "message":
+                    await OnMessageReceived(message, callback);
+                    break;
+                default:
+                    // TODO: Implement non-message type
+                    break;
+            }
         }
 
         private async Task OnMessageReceived(MessageEvent message, BotCallbackHandler callback)

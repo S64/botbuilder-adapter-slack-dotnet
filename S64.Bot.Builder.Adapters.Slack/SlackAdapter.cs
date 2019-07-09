@@ -16,14 +16,14 @@ namespace S64.Bot.Builder.Adapters.Slack
 
         public const string CHANNEL_ID = "slack";
 
-        private readonly SlackRtmClient socket;
+        private readonly SlackOptions options;
         public readonly SlackApiClient Rest;
 
         public AuthTestResponse CurrentUser { get; set; }
 
         public SlackAdapter(SlackOptions options) : base()
         {
-            socket = new SlackRtmClient(options.BotUserToken);
+            this.options = options;
             Rest = new SlackApiClient(options.BotUserToken);
         }
 
@@ -33,30 +33,46 @@ namespace S64.Bot.Builder.Adapters.Slack
             return this;
         }
 
-        public async Task ProcessActivityAsync(
+        private async Task InitUserIfNeeded()
+        {
+            if (CurrentUser == null)
+            {
+                CurrentUser = await Rest.Auth.Test();
+            }
+        }
+
+        public async Task ProcessActivityBySocketAsync(
             BotCallbackHandler callback = null
         )
         {
+            await InitUserIfNeeded();
 
-            CurrentUser = await Rest.Auth.Test();
-
+            var socket = new SlackRtmClient(options.BotUserToken);
             await socket.Connect().ConfigureAwait(false);
 
-            var sub = socket.Messages.Subscribe(async (msg) =>
+            var sub = socket.Messages.Subscribe(async (message) =>
             {
-                switch (msg.Type)
-                {
-                    case "message":
-                        await OnMessageReceived(msg, callback);
-                        break;
-                    default:
-                        // TODO: Implement non-message type
-                        break;
-                }
+                await ProcessActivityAsync(message, callback);
             });
 
             await socket.Events;
             sub.Dispose();
+        }
+
+        public async Task ProcessActivityAsync(
+            MessageEvent message,
+            BotCallbackHandler callback = null
+        )
+        {
+            switch (message.Type)
+            {
+                case "message":
+                    await OnMessageReceived(message, callback);
+                    break;
+                default:
+                    // TODO: Implement non-message type
+                    break;
+            }
         }
 
         private async Task OnMessageReceived(MessageEvent message, BotCallbackHandler callback)

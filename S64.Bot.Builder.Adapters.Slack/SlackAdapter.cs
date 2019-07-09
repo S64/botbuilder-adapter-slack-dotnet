@@ -64,6 +64,8 @@ namespace S64.Bot.Builder.Adapters.Slack
             BotCallbackHandler callback = null
         )
         {
+            await InitUserIfNeeded();
+
             switch (message.Type)
             {
                 case "message":
@@ -99,6 +101,11 @@ namespace S64.Bot.Builder.Adapters.Slack
                 },
             };
 
+            await ProcessActivityAsync(activity, callback);
+        }
+
+        private async Task ProcessActivityAsync(Activity activity, BotCallbackHandler callback)
+        {
             using (var context = new TurnContext(this, activity))
             {
                 await this.RunPipelineAsync(

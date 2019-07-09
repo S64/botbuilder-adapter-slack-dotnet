@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S64.Bot.Builder.Adapters.Sl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S64.Bot.Builder.Adapters.Slack.Example", "S64.Bot.Builder.Adapters.Slack.Example\S64.Bot.Builder.Adapters.Slack.Example.csproj", "{01B1B05C-B995-4A5F-BEF3-C8B941FB96A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S64.Bot.Builder.Adapters.Slack.AspNetCore", "S64.Bot.Builder.Adapters.Slack.AspNetCore\S64.Bot.Builder.Adapters.Slack.AspNetCore.csproj", "{783E288E-4C5C-4363-BCAD-6240B6316CF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S64.Bot.Builder.Adapters.Slack.AspNetCore.Example", "S64.Bot.Builder.Adapters.Slack.AspNetCore.Example\S64.Bot.Builder.Adapters.Slack.AspNetCore.Example.csproj", "{6DA4A8BA-0242-4DC8-A2A0-61D43C4A3296}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,5 +23,13 @@ Global
 		{01B1B05C-B995-4A5F-BEF3-C8B941FB96A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01B1B05C-B995-4A5F-BEF3-C8B941FB96A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01B1B05C-B995-4A5F-BEF3-C8B941FB96A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{783E288E-4C5C-4363-BCAD-6240B6316CF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{783E288E-4C5C-4363-BCAD-6240B6316CF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{783E288E-4C5C-4363-BCAD-6240B6316CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{783E288E-4C5C-4363-BCAD-6240B6316CF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DA4A8BA-0242-4DC8-A2A0-61D43C4A3296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DA4A8BA-0242-4DC8-A2A0-61D43C4A3296}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DA4A8BA-0242-4DC8-A2A0-61D43C4A3296}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DA4A8BA-0242-4DC8-A2A0-61D43C4A3296}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

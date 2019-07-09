@@ -31,7 +31,7 @@ namespace S64.Bot.Builder.Adapters.Slack.AspNetCore
 
             applicationBuilder.Map(
                 $"{paths.BasePath}{paths.RequestPath}",
-                botActivitiesAppBuilder => botActivitiesAppBuilder.Run(new SlackRequestHandler(adapter, options.SlackOptions).HandleAsync));
+                botActivitiesAppBuilder => botActivitiesAppBuilder.Run(new SlackRequestHandler(adapter, options).HandleAsync));
 
             return applicationBuilder;
         }

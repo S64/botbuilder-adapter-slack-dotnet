@@ -13,4 +13,7 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\S64.Bot.Builder.Adapters.Slack.AspNetCore\S64.Bot.Builder.Adapters.Slack.AspNetCore.csproj" />
+  </ItemGroup>
 </Project>

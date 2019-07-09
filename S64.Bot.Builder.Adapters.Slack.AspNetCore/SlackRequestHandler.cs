@@ -63,12 +63,6 @@ namespace S64.Bot.Builder.Adapters.Slack.AspNetCore
                     response.StatusCode = (int)HttpStatusCode.OK;
                     return;
                 }
-                else if (eventCallback.Event is AppMention mention)
-                {
-                    await adapter.ProcessActivityAsync(mention, bot.OnTurnAsync);
-                    response.StatusCode = (int)HttpStatusCode.OK;
-                    return;
-                }
                 else
                 {
                     response.StatusCode = (int)HttpStatusCode.Forbidden;

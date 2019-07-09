@@ -9,7 +9,7 @@ namespace S64.Bot.Builder.Adapters.Slack.AspNetCore
     public static class ApplicationBuilderExtensions
     {
 
-        public static IApplicationBuilder UseSlack(this IApplicationBuilder applicationBuilder, Action<SlackBotPaths> configurePaths)
+        public static IApplicationBuilder UseSlack(this IApplicationBuilder applicationBuilder)
         {
             var options = applicationBuilder.ApplicationServices.GetRequiredService<IOptions<SlackBotOptions>>().Value;
 
@@ -21,8 +21,6 @@ namespace S64.Bot.Builder.Adapters.Slack.AspNetCore
             }
 
             var paths = options.Paths;
-
-            configurePaths(paths);
 
             if (!paths.BasePath.EndsWith("/"))
             {

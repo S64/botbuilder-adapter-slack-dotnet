@@ -77,6 +77,15 @@ namespace S64.Bot.Builder.Adapters.Slack
             }
         }
 
+        public async Task ProcessActivityAsync(
+            AppMention message,
+            BotCallbackHandler callback = null
+        )
+        {
+            await InitUserIfNeeded();
+            await OnMessageReceived(message, callback);
+        }
+
         private async Task OnMessageReceived(MessageEvent message, BotCallbackHandler callback)
         {
             var activity = new Activity
@@ -101,6 +110,11 @@ namespace S64.Bot.Builder.Adapters.Slack
                 },
             };
 
+            await ProcessActivityAsync(activity, callback);
+        }
+
+        private async Task ProcessActivityAsync(Activity activity, BotCallbackHandler callback)
+        {
             using (var context = new TurnContext(this, activity))
             {
                 await this.RunPipelineAsync(

@@ -24,6 +24,14 @@ namespace S64.Bot.Builder.Adapters.Slack
         public SlackAdapter(SlackOptions options) : base()
         {
             this.options = options;
+
+            if (!options.IsValid)
+            {
+                throw new ArgumentException(
+                    "Passed options are invalid."
+                );
+            }
+
             Rest = new SlackApiClient(options.BotUserToken);
         }
 

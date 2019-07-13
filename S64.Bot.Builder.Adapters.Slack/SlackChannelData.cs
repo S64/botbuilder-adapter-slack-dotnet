@@ -11,6 +11,8 @@ namespace S64.Bot.Builder.Adapters.Slack
 
         public bool? IsMention { get; set; } = null;
 
+        public bool? IsBot { get; set; } = null;
+
     }
 
 }

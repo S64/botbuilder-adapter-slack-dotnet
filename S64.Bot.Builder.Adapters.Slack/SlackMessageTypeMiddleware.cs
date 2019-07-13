@@ -35,15 +35,11 @@ namespace S64.Bot.Builder.Adapters.Slack
                         {
                             data.IsMention = false;
                         }
-                        else if (data.Message.User == null || data.Message.User.Equals("USLACKBOT"))
-                        {
-                            data.IsMention = false;
-                        }
                         else if (data.Message.Subtype != null && !data.Message.Subtype.Equals("thread_broadcast"))
                         {
                             data.IsMention = false;
                         }
-                        else if (!(data.Message is MessageEvent) || data.Message is BotMessage)
+                        else if (!(data.Message is MessageEvent))
                         {
                             data.IsMention = false;
                         }
@@ -56,6 +52,19 @@ namespace S64.Bot.Builder.Adapters.Slack
                     if (data.IsMention == null)
                     {
                         data.IsMention = true;
+                    }
+
+                    if (data.Message.User == null || data.Message.User.Equals("USLACKBOT"))
+                    {
+                        data.IsBot = true;
+                    }
+                    else if (data.Message is BotMessage)
+                    {
+                        data.IsBot = true;
+                    }
+                    else
+                    {
+                        data.IsBot = false;
                     }
                 }
             }

@@ -18,7 +18,7 @@ namespace S64.Bot.Builder.Adapters.Slack.Example
             if (SlackAdapter.CHANNEL_ID.Equals(turnContext.Activity.ChannelId))
             {
                 var data = turnContext.Activity.ChannelData as SlackChannelData;
-                if (turnContext.Activity.Type.Equals(ActivityTypes.Message) && data.IsMention == true)
+                if (turnContext.Activity.Type.Equals(ActivityTypes.Message) && data.IsMention == true && data.IsBot != true)
                 {
                     await turnContext.SendActivityAsync(
                         MessageFactory.Text($"Hello World! Your message is: `{turnContext.Activity.Text}`."),

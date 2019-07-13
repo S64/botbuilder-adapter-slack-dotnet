@@ -10,7 +10,7 @@ namespace S64.Bot.Builder.Adapters.Slack.AspNetCore
 
         public SlackOptions SlackOptions { get; set; }
 
-        public IList<IMiddleware> Middleware { get; set; }
+        public IList<IMiddleware> Middleware { get; set; } = new List<IMiddleware>();
 
         public SlackBotPaths Paths { get; set; }
 

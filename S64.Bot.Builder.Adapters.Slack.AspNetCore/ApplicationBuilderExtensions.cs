@@ -13,6 +13,13 @@ namespace S64.Bot.Builder.Adapters.Slack.AspNetCore
         {
             var options = applicationBuilder.ApplicationServices.GetRequiredService<IOptions<SlackBotOptions>>().Value;
 
+            if (!options.IsValid)
+            {
+                throw new ArgumentException(
+                    "Passed options are invalid."
+                );
+            }
+
             var adapter = new SlackAdapter(options.SlackOptions);
 
             foreach (var middleware in options.Middleware)

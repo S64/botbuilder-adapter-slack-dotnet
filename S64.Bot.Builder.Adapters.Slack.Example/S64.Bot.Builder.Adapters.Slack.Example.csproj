@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <PackageId>S64.Bot.Builder.Adapters.Slack.Example</PackageId>
     <Description>Example app of slack adapter usages</Description>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

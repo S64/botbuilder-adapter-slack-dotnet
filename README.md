@@ -4,6 +4,12 @@
 
 Slack adapter for Microsoft Bot Builder SDK
 
+## Usages
+
+See tutorial videos on YouTube.
+
+<a href="https://www.youtube.com/playlist?list=PLa8Yy0PvYCjhgThodmsRf4Cpfu4BxEz6F"><img src="http://img.youtube.com/vi/os0gHnJLGWY/0.jpg" width="250"/></a>
+
 ## License
 
 ```

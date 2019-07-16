@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>S64.Bot.Builder.Adapters.Slack.AspNetCore</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
